@@ -1,0 +1,42 @@
+name: 'GitHub Org Reminder'
+description: 'Publish a message in a channel or send a JSON payload to the Slack Workflow Builder'
+
+inputs:
+  cron-schedule:
+    description: 'Cron schedule for the workflow'
+    required: true
+    default: '0 10 */2 * *' # Every 2 days at 10:00AM UTC
+
+runs:
+  using: 'composite'
+  steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install PyGithub requests
+
+      - name: Run reminder script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORG_NAME: ${{ secrets.ORG_NAME }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          python3 app.py
+
+      - name: Debug environment variables
+        run: |
+          echo "GITHUB_TOKEN: $GITHUB_TOKEN"
+          echo "ORG_NAME: $ORG_NAME"
+          echo "SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL:0:10}..."  # Print partial webhook to confirm it’s being passed
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORG_NAME: ${{ secrets.ORG_NAME }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
