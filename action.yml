@@ -1,5 +1,7 @@
 name: 'GitHub Org Reminder'
 description: 'Publish a message in a channel or send a JSON payload to the Slack Workflow Builder'
+icon: 'at-sign'
+color: 'purple'
 
 inputs:
   cron-schedule:
