@@ -57,12 +57,12 @@ def send_slack_reminder(activities, webhook_url):
         print("Message sent successfully.")
 
 # Get environment variables
-github_token = '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'
-org_name = 'keploy'
-slack_webhook_url = 'https://hooks.slack.com/services/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'
-slack_client_id ='3074356993157.7697084833814'
-slack_client_secret = '69b48790402e873174205fdb5e31956b'
-slack_signing_secret = '621d7a267dec79e3bf309f4e352b1032'
+github_token = os.environ['GITHUB_TOKEN']
+org_name = os.environ['ORG_NAME']
+slack_webhook_url = os.environ['SLACK_WEBHOOK_URL']
+slack_client_id = os.environ['SLACK_CLIENT_ID']
+slack_client_secret = os.environ['SLACK_CLIENT_SECRET']
+slack_signing_secret = os.environ['SLACK_SIGNING_SECRET']
 
 # Initialize Slack OAuth components
 installation_store = FileInstallationStore(base_dir="./data")
